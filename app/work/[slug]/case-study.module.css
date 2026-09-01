@@ -1,0 +1,363 @@
+.page {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  padding-bottom: var(--s-10);
+}
+
+/* ---- Dark header band, tinted by the project's jewel ---- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--void);
+  color: var(--text-on-void);
+  padding-top: calc(var(--header-h) + var(--s-8));
+  padding-bottom: var(--s-9);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+}
+
+/* A single accent pool behind the title — the jewel lighting its own chamber. */
+.heroGlow {
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: min(62vw, 720px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent) 42%, transparent),
+    transparent 72%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--text-on-void-dim);
+  margin-bottom: var(--s-7);
+}
+
+.title {
+  font-size: var(--t-display-1);
+  line-height: 0.94;
+}
+
+.mechanism {
+  color: var(--accent);
+  margin-top: var(--s-4);
+}
+
+.oneLiner {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.5;
+  max-width: 46ch;
+  margin-top: var(--s-5);
+  color: var(--text-on-void);
+}
+
+/* ---- Paper body ---- */
+
+.body {
+  position: relative;
+}
+
+/* The diagram card straddles the dark band and the paper below it. */
+.diagramFrame {
+  margin-top: calc(var(--s-8) * -1);
+  margin-bottom: var(--s-7);
+  border: 1px solid var(--rule-paper);
+  border-top: 2px solid var(--accent);
+  padding: var(--s-5);
+  background: #fff;
+  box-shadow: 0 24px 60px -32px rgba(12, 12, 16, 0.55);
+}
+
+/* ---- Blocks ---- */
+
+.block {
+  padding-block: var(--s-8);
+  border-bottom: 1px solid var(--rule-paper);
+  display: grid;
+  gap: var(--s-5);
+}
+
+@media (min-width: 900px) {
+  .block {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--s-8);
+    align-items: start;
+  }
+}
+
+.blockLabel {
+  color: var(--ink-soft);
+  padding-top: 4px;
+}
+
+.prose {
+  max-width: var(--measure);
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+/* ---- Tag lists ---- */
+
+.tagList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.tag {
+  border: 1px solid var(--rule-paper);
+  padding: 7px 13px;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--t-mono);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* ---- Workflow ---- */
+
+.workflow {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.workflowStep {
+  display: grid;
+  grid-template-columns: 4ch minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: baseline;
+  padding-bottom: var(--s-3);
+  border-bottom: 1px dotted var(--rule-paper);
+  color: var(--ink-soft);
+}
+
+.workflowIndex {
+  color: var(--accent-text);
+}
+
+.workflowActor {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---- Mechanism ---- */
+
+.mechanismList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-5);
+}
+
+.mechanismStep {
+  display: grid;
+  grid-template-columns: 4ch minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: start;
+}
+
+.mechanismIndex {
+  color: var(--accent-text);
+  padding-top: 5px;
+}
+
+.mechanismText {
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.mechanismNote {
+  color: var(--ink-soft);
+  margin-top: var(--s-2);
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--accent);
+  line-height: 1.6;
+}
+
+/* ---- States ---- */
+
+.states {
+  margin-top: var(--s-7);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--rule-paper);
+}
+
+.stateList {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-4) 0 0;
+  display: grid;
+  gap: var(--s-4);
+}
+
+.stateRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.stateFrom,
+.stateChip {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--t-mono);
+  border: 1px solid var(--rule-paper);
+  padding: 5px 10px;
+  background: var(--paper-dim);
+}
+
+.stateFrom {
+  border-color: var(--accent);
+}
+
+.stateArrow {
+  color: var(--accent-text);
+}
+
+.stateTo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.stateNote {
+  flex-basis: 100%;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* ---- Check lists ---- */
+
+.checkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.checkItem {
+  position: relative;
+  padding-left: var(--s-6);
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.checkItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 10px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ---- Metrics ---- */
+
+.metricList {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-4) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.metric {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--t-mono);
+  color: var(--ink-soft);
+  border: 1px dashed var(--rule-paper);
+  padding: 6px 11px;
+}
+
+/* ---- Scope: visually emphasised, it is the honest part ---- */
+
+.scope {
+  background: var(--paper-dim);
+  margin-inline: calc(var(--s-5) * -1);
+  padding-inline: var(--s-5);
+}
+
+/* ---- Stack table ---- */
+
+.stackTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stackTable tr {
+  border-bottom: 1px solid var(--rule-paper);
+}
+
+.stackLayer {
+  text-align: left;
+  color: var(--ink-soft);
+  padding: var(--s-3) var(--s-4) var(--s-3) 0;
+  vertical-align: top;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.stackTech {
+  padding: var(--s-3) 0;
+  color: var(--ink);
+}
+
+/* ---- Pager ---- */
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-5);
+  padding-top: var(--s-8);
+}
+
+.pagerLink {
+  display: grid;
+  gap: var(--s-2);
+  text-decoration: none;
+  color: var(--ink);
+  padding: var(--s-4) 0;
+  transition: color var(--d-micro) linear;
+}
+
+.pagerLink:hover {
+  color: var(--accent-text);
+}
+
+.pagerNext {
+  text-align: right;
+  margin-left: auto;
+}
+
+.pagerLabel {
+  color: var(--ink-soft);
+}
+
+.pagerName {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+}

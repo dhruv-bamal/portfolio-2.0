@@ -1,0 +1,40 @@
+.reveal {
+  transition:
+    opacity 700ms var(--e-settle),
+    transform 700ms var(--e-settle),
+    clip-path 800ms var(--e-settle);
+  will-change: opacity, transform;
+}
+
+/* Content rises into place. */
+.rise {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+/* A hairline wipe, as if the plate were being uncovered. */
+.wipe {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Parts converge: scale and settle, matching the mechanical motion personality (plan §19). */
+.assemble {
+  opacity: 0;
+  transform: translateY(14px) scale(0.965);
+}
+
+.shown {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}

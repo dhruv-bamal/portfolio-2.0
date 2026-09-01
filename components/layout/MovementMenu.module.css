@@ -1,0 +1,190 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: var(--void-deep);
+  overflow-y: auto;
+  animation: reveal var(--d-ui) var(--e-settle);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.inner {
+  min-height: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--s-5) var(--gutter) var(--s-9);
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule-void);
+  color: var(--brass);
+}
+
+.close {
+  color: var(--text-on-void-dim);
+}
+.close:hover {
+  color: var(--brass);
+}
+
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-8);
+  padding-top: var(--s-8);
+}
+
+@media (min-width: 900px) {
+  .body {
+    grid-template-columns: 1.45fr 1fr;
+    gap: var(--s-9);
+  }
+}
+
+.chapterList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chapterLink {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-5);
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule-void);
+  text-decoration: none;
+  color: var(--text-on-void);
+  transition: color var(--d-micro) linear, padding-left var(--d-ui) var(--e-settle);
+}
+
+.chapterLink:hover {
+  color: var(--brass);
+  padding-left: var(--s-4);
+}
+
+.chapterIndex {
+  color: var(--brass);
+  flex: none;
+}
+
+.chapterTitle {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-7);
+}
+
+.sideLabel {
+  color: var(--brass);
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--rule-void);
+}
+
+.sideList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.sideLink {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--text-on-void);
+  text-decoration: none;
+  padding: 6px 0;
+  min-height: 40px;
+  transition: color var(--d-micro) linear;
+}
+
+.sideLink:hover {
+  color: var(--brass);
+}
+
+.jewel {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--brass);
+}
+
+.sideLink[data-accent='ruby'] .jewel {
+  background: var(--ruby);
+}
+.sideLink[data-accent='sapphire'] .jewel {
+  background: var(--sapphire);
+}
+.sideLink[data-accent='citrine'] .jewel {
+  background: var(--citrine);
+}
+
+.sideNote {
+  color: var(--text-on-void-dim);
+  margin-left: auto;
+  text-align: right;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--text-on-void);
+  min-height: 44px;
+}
+
+.toggleBox {
+  width: 34px;
+  height: 18px;
+  border: 1px solid var(--rule-void);
+  position: relative;
+  flex: none;
+}
+
+.toggleBox::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--steel);
+  transition: transform var(--d-micro) var(--e-settle), background var(--d-micro) linear;
+}
+
+.toggleBox[data-on='true']::after {
+  transform: translateX(16px);
+  background: var(--brass);
+}
+
+.toggleNote {
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-3);
+  max-width: 42ch;
+  line-height: 1.6;
+}

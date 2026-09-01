@@ -1,0 +1,1034 @@
+/* Shared section styling for the seven chapters. */
+
+/* ========================= HERO ========================= */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--header-h) + var(--s-7));
+  padding-bottom: var(--s-8);
+}
+
+/* Portrait: the instrument holds the upper field, the copy holds the lower. A soft scrim
+   guarantees the readability floor regardless of what the 3D is doing behind it. */
+@media (max-width: 899px) {
+  .hero {
+    align-items: flex-end;
+    padding-bottom: var(--s-9);
+  }
+
+  .heroGrid {
+    position: relative;
+  }
+
+  .heroGrid::before {
+    content: '';
+    position: absolute;
+    inset: -8vh calc(var(--gutter) * -1) -12vh;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(12, 12, 16, 0.82) 22%,
+      rgba(12, 12, 16, 0.94) 60%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.heroGrid {
+  width: 100%;
+  display: grid;
+  gap: var(--s-6);
+}
+
+.heroName {
+  font-size: var(--t-display-xl);
+  line-height: 0.9;
+  /* Deliberate grid violation (plan §17): the name exceeds its column. */
+  margin-left: -0.06em;
+}
+
+.heroNameLine {
+  display: block;
+}
+
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+  color: var(--brass);
+}
+
+.heroMeta::before {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: currentColor;
+}
+
+.heroPositioning {
+  max-width: 44ch;
+  color: var(--text-on-void);
+  font-size: clamp(1.0625rem, 1.4vw, 1.3rem);
+  line-height: 1.55;
+}
+
+.heroCue {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-6);
+}
+
+.heroCueRule {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(to bottom, var(--brass), transparent);
+  animation: wind 2.4s var(--e-damp) infinite;
+}
+
+@keyframes wind {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    transform-origin: top;
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+
+/* ========================= FLAGSHIP ========================= */
+
+.flagship {
+  position: relative;
+}
+
+.flagshipSticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.flagshipCopy {
+  text-align: center;
+  max-width: 30ch;
+  z-index: 2;
+}
+
+.flagshipTitle {
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  line-height: 1.02;
+}
+
+.flagshipNote {
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-5);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.skipPin {
+  position: absolute;
+  bottom: var(--s-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.windingArc {
+  position: absolute;
+  left: 50%;
+  bottom: var(--s-8);
+  transform: translateX(-50%);
+  color: var(--brass);
+  z-index: 2;
+}
+
+/* ========================= PAPER SPREADS ========================= */
+
+.spread {
+  position: relative;
+  z-index: 1;
+}
+
+.spreadGrid {
+  display: grid;
+  gap: var(--s-7);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .spreadGrid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: var(--s-9);
+  }
+}
+
+.spreadTitle {
+  font-size: var(--t-display-1);
+  line-height: 0.96;
+  margin-bottom: var(--s-5);
+}
+
+.lede {
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 34ch;
+}
+
+.body p {
+  max-width: var(--measure);
+  color: var(--ink-soft);
+}
+
+.body p + p {
+  margin-top: var(--s-4);
+}
+
+/* Margin notes sit on precise grid lines (plan §17) */
+.marginNotes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--rule-paper);
+}
+
+.marginNote {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-1);
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule-paper);
+}
+
+.marginNoteLabel {
+  color: var(--ink-soft);
+}
+
+.marginNoteValue {
+  font-size: 1.0625rem;
+}
+
+/* ========================= ACHIEVEMENTS ========================= */
+
+/* ---- Featured exhibit: the certificate leads, the record slides in over it ---- */
+
+.exhibit {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--rule-void);
+  margin-top: var(--s-6);
+  min-height: clamp(360px, 46vw, 520px);
+  display: flex;
+  align-items: flex-end;
+  transition: border-color var(--d-ui) var(--e-settle);
+}
+
+.exhibit:hover,
+.exhibit:focus-within {
+  border-color: var(--brass);
+}
+
+.exhibitPlate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.exhibitPlate img {
+  width: 100%;
+  height: 100%;
+  /* `contain`, not `cover`: the certificate is landscape and the card is a wide band, so
+     cover cropped the head and foot off the document. It is the exhibit — it should be whole. */
+  object-fit: contain;
+  object-position: 50% 42%;
+  padding: var(--s-5) var(--s-5) var(--s-9);
+  /* Showcased by default; dimmed once the record takes over. */
+  opacity: 0.72;
+  filter: saturate(0.82) contrast(1.02);
+  transition: opacity 600ms var(--e-settle), filter 600ms var(--e-settle),
+    transform 900ms var(--e-settle);
+}
+
+.exhibit:hover .exhibitPlate img,
+.exhibit:focus-within .exhibitPlate img {
+  opacity: 0.2;
+  filter: saturate(0.45) contrast(0.95) blur(2px);
+  transform: scale(1.03);
+}
+
+/* A permanent scrim at the foot so the title never sits on bare paper. */
+.exhibitCaption {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: var(--s-7) var(--s-6) var(--s-5);
+  background: linear-gradient(
+    to top,
+    rgba(12, 12, 16, 0.98) 0%,
+    rgba(12, 12, 16, 0.92) 45%,
+    rgba(12, 12, 16, 0) 100%
+  );
+  transition: opacity 400ms var(--e-settle);
+}
+
+/* The title stays put and rides above the record — losing the card's own heading the moment
+   you point at it left the panel unlabelled. Only the hint retires. */
+.exhibit:hover .exhibitCaption,
+.exhibit:focus-within .exhibitCaption {
+  z-index: 4;
+  background: linear-gradient(to top, rgba(12, 12, 16, 0.98) 30%, rgba(12, 12, 16, 0) 100%);
+}
+
+.exhibit:hover .exhibitHint,
+.exhibit:focus-within .exhibitHint {
+  opacity: 0;
+}
+
+.exhibitHint {
+  transition: opacity 300ms var(--e-settle);
+}
+
+.exhibitTitle {
+  font-size: clamp(1.5rem, 2.8vw, 2.3rem);
+  line-height: 1.04;
+}
+
+.exhibitHint {
+  color: var(--brass);
+  margin-top: var(--s-3);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.exhibitHint::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* The record itself, entering from the left. */
+.record {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    100deg,
+    rgba(12, 12, 16, 0.97) 0%,
+    rgba(12, 12, 16, 0.94) 55%,
+    rgba(12, 12, 16, 0.86) 100%
+  );
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 450ms var(--e-settle), visibility 0s linear 450ms;
+}
+
+.exhibit:hover .record,
+.exhibit:focus-within .record {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 450ms var(--e-settle), visibility 0s linear 0s;
+}
+
+.recordInner {
+  width: 100%;
+  padding: var(--s-6) var(--s-6) calc(var(--s-9) + var(--s-3));
+  display: grid;
+  gap: var(--s-6);
+  align-content: center;
+  transform: translateX(-28px);
+  opacity: 0;
+  transition: transform 600ms var(--e-settle), opacity 500ms var(--e-settle);
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+@media (min-width: 900px) {
+  .recordInner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s-8);
+  }
+}
+
+.exhibit:hover .recordInner,
+.exhibit:focus-within .recordInner {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.recordSummary {
+  color: var(--text-on-void-dim);
+  line-height: 1.6;
+  max-width: 64ch;
+}
+
+.recordDetail {
+  margin-top: var(--s-5);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule-void);
+}
+
+.recordDetail p + p {
+  margin-top: var(--s-3);
+}
+
+/* Touch has no hover: show the record outright and keep the plate dimmed behind it. */
+@media (hover: none) {
+  .exhibit {
+    display: block;
+    min-height: 0;
+  }
+  .exhibitPlate img {
+    opacity: 0.14;
+    filter: saturate(0.4) contrast(0.95) blur(2px);
+  }
+  .exhibitCaption {
+    background: none;
+    padding-bottom: 0;
+  }
+  .exhibitHint {
+    display: none;
+  }
+  .record {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    visibility: visible;
+    background: none;
+  }
+  .recordInner {
+    transform: none;
+    opacity: 1;
+    max-height: none;
+    overflow: visible;
+    padding-top: var(--s-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recordInner {
+    transform: none;
+  }
+}
+
+/* ---- Supporting medallions ---- */
+
+.medallions {
+  display: grid;
+  gap: var(--s-5);
+  margin-top: var(--s-5);
+}
+
+@media (min-width: 900px) {
+  .medallions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.medallion {
+  position: relative;
+  border: 1px solid var(--rule-void);
+  padding: var(--s-6);
+  background: linear-gradient(160deg, rgba(201, 169, 106, 0.06), transparent 60%);
+  transition: border-color var(--d-ui) var(--e-settle), transform var(--d-ui) var(--e-settle);
+}
+
+.medallion:hover,
+.medallion:focus-within {
+  border-color: var(--brass);
+  transform: translateY(-2px);
+}
+
+.medallionBody {
+  position: relative;
+  z-index: 1;
+}
+
+.medallionTitle {
+  font-size: clamp(1.25rem, 2.1vw, 1.7rem);
+  line-height: 1.06;
+  margin-bottom: var(--s-3);
+}
+
+.medallionSummary {
+  color: var(--text-on-void-dim);
+  max-width: 60ch;
+}
+
+.medallionDetail {
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule-void);
+}
+
+.medallionDetail p + p {
+  margin-top: var(--s-3);
+}
+
+.metaRows {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-4) 0 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.metaRow {
+  display: flex;
+  gap: var(--s-4);
+  align-items: baseline;
+  border-bottom: 1px dotted var(--rule-void);
+  padding-bottom: var(--s-2);
+}
+
+.metaRowLabel {
+  color: var(--brass);
+  flex: none;
+  min-width: 8ch;
+}
+
+.metaRowValue {
+  color: var(--text-on-void);
+}
+
+.extLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-6);
+  margin-top: var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule-void);
+}
+
+/* Links, not buttons: stacked CTAs made the card look like a pricing table. */
+.extLink {
+  color: var(--brass);
+  text-decoration: none;
+  padding: 6px 0;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 1px;
+  transition: background-size var(--d-ui) var(--e-settle), color var(--d-micro) linear;
+}
+
+.extLink:hover {
+  color: var(--brass-bright);
+  background-size: 100% 1px;
+}
+
+.certificateCaption {
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-5);
+  line-height: 1.6;
+  opacity: 0.75;
+  max-width: 58ch;
+}
+
+/* ========================= SKILLS ========================= */
+
+.skillsHead {
+  display: grid;
+  gap: var(--s-4);
+  margin-bottom: var(--s-7);
+}
+
+@media (min-width: 900px) {
+  .skillsHead {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--s-8);
+  }
+}
+
+.skillsLede {
+  color: var(--text-on-void-dim);
+  max-width: 42ch;
+  line-height: 1.6;
+}
+
+/* All nine clusters, always readable. Hover is enhancement only — it tints the 3D. */
+.clusterGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--rule-void);
+  border: 1px solid var(--rule-void);
+}
+
+@media (min-width: 700px) {
+  .clusterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1080px) {
+  .clusterGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cluster {
+  background: var(--void);
+  padding: var(--s-5);
+  transition: background var(--d-ui) var(--e-settle);
+}
+
+.cluster:hover {
+  background: rgba(201, 169, 106, 0.06);
+}
+
+.clusterMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+
+.clusterIndex {
+  color: var(--brass);
+  flex: none;
+}
+
+.clusterRule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule-void);
+}
+
+.clusterName {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  line-height: 1.1;
+  margin-bottom: var(--s-4);
+}
+
+.clusterItems {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+}
+
+.clusterItemText {
+  color: var(--text-on-void-dim);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--t-mono);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.clusterItemText:not(:last-child)::after {
+  content: '·';
+  color: var(--brass);
+  padding: 0 8px;
+  opacity: 0.7;
+}
+
+/* ========================= WORK ========================= */
+
+.workIntro {
+  padding-bottom: var(--s-7);
+}
+
+/* ---- Horizontal rail ---- */
+
+.rail {
+  position: relative;
+  overflow: hidden;
+}
+
+.railTrack {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Rail mode: panels sit side by side and the track is translated by ScrollTrigger. */
+.rail[data-mode='rail'] {
+  height: 100svh;
+}
+
+.rail[data-mode='rail'] .railTrack {
+  flex-direction: row;
+  height: 100%;
+  will-change: transform;
+}
+
+.rail[data-mode='rail'] .panel {
+  flex: 0 0 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-top: 0;
+  padding-block: 0;
+}
+
+/* Hairline between exhibits, as on a gallery wall. */
+.rail[data-mode='rail'] .panel + .panel {
+  border-left: 1px solid var(--rule-void);
+}
+
+/* Stack mode (touch, narrow, reduced motion): an ordinary vertical sequence. */
+.panel {
+  position: relative;
+  width: 100%;
+}
+
+.rail[data-mode='stack'] .panel .panelGrid {
+  padding-block: clamp(var(--s-8), 9vh, var(--s-9));
+  border-top: 1px solid var(--rule-void);
+}
+
+.panelGrid {
+  display: grid;
+  gap: var(--s-6);
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .panelGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: var(--s-8);
+    align-items: center;
+  }
+}
+
+/* ---- Rail position indicator ---- */
+
+.railProgress {
+  position: absolute;
+  left: 50%;
+  bottom: var(--s-6);
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: var(--s-4);
+  pointer-events: none;
+}
+
+.rail[data-mode='rail'] .railProgress {
+  display: flex;
+}
+
+.railBar {
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: var(--rule-void);
+  position: relative;
+}
+
+.railBarFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--rail-progress, 0) * 100%);
+  background: var(--brass);
+}
+
+.railLabels {
+  display: flex;
+  gap: var(--s-4);
+  color: var(--text-on-void-dim);
+}
+
+.railLabel {
+  opacity: 0.35;
+  transition: opacity var(--d-ui) var(--e-settle), color var(--d-ui) var(--e-settle);
+}
+
+.railProgress[data-active='0'] .railLabel[data-i='0'],
+.railProgress[data-active='1'] .railLabel[data-i='1'],
+.railProgress[data-active='2'] .railLabel[data-i='2'] {
+  opacity: 1;
+  color: var(--brass);
+}
+
+/* ---- Chamber content ---- */
+
+.chamberIndex {
+  font-family: var(--font-display), serif;
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  color: var(--accent);
+  line-height: 0.8;
+  opacity: 0.6;
+}
+
+.chamberName {
+  font-size: clamp(1.85rem, 3.6vw, 3rem);
+  line-height: 1;
+  margin-top: var(--s-3);
+}
+
+.chamberMechanism {
+  color: var(--accent);
+  margin-top: var(--s-3);
+}
+
+.chamberCopy {
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-5);
+  max-width: 46ch;
+  line-height: 1.65;
+}
+
+.chamberStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+  list-style: none;
+  padding: 0;
+}
+
+/* Shared chip, used by the chamber stack lists. */
+.chip {
+  border: 1px solid var(--rule-void);
+  padding: 6px 12px;
+  color: var(--text-on-void);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--t-mono);
+  letter-spacing: 0.05em;
+}
+
+.chamberActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+/* Phase captions — the reduced-motion / no-WebGL equivalent of the running mechanism */
+.phases {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-4);
+}
+
+.phase {
+  border-left: 1px solid var(--rule-void);
+  padding-left: var(--s-5);
+  transition: border-color var(--d-ui) var(--e-settle);
+}
+
+.phase[data-active='true'] {
+  border-color: var(--accent);
+}
+
+.phaseLabel {
+  color: var(--accent);
+}
+
+.phaseCaption {
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-2);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ========================= BUILD ========================= */
+
+.capabilities {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-7) 0 0;
+  border-top: 1px solid var(--rule-paper);
+}
+
+.capability {
+  padding: var(--s-6) 0;
+  border-bottom: 1px solid var(--rule-paper);
+  display: grid;
+  gap: var(--s-4);
+}
+
+@media (min-width: 900px) {
+  .capability {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: var(--s-7);
+    align-items: start;
+  }
+}
+
+.capabilityHead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.capabilityStatement {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.25rem, 2.1vw, 1.85rem);
+  line-height: 1.08;
+}
+
+.capabilityDetail {
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.derivedFrom {
+  color: var(--ink-soft);
+  margin-top: var(--s-3);
+  opacity: 0.75;
+}
+
+/* Parts converging into a complication — the section's thesis, in motion. */
+.assemblyMark {
+  flex: none;
+  color: var(--ink);
+  opacity: 0.7;
+  display: block;
+}
+
+.assemblyRing {
+  transform: rotate(-120deg) scale(0.7);
+  opacity: 0;
+}
+
+:global(.is-revealed) .assemblyRing {
+  animation: assemble 900ms var(--e-settle) forwards;
+}
+
+@keyframes assemble {
+  from {
+    transform: rotate(-120deg) scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assemblyRing {
+    transform: none;
+    opacity: 1;
+    animation: none !important;
+  }
+}
+
+.intentNote {
+  margin-top: var(--s-8);
+  padding: var(--s-6);
+  border: 1px solid var(--rule-paper);
+  border-left: 2px solid var(--ink);
+  background: var(--paper-dim);
+  max-width: 62ch;
+}
+
+/* ========================= CONTACT ========================= */
+
+.backPlate {
+  position: relative;
+  border: 1px solid var(--rule-void);
+  padding: clamp(var(--s-6), 5vw, var(--s-9));
+  background: linear-gradient(150deg, rgba(201, 169, 106, 0.09), transparent 55%);
+}
+
+.backPlate::before,
+.backPlate::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--brass);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.backPlate::before {
+  top: 14px;
+  left: 14px;
+}
+.backPlate::after {
+  bottom: 14px;
+  right: 14px;
+}
+
+.contactTitle {
+  font-size: var(--t-display-1);
+  line-height: 0.96;
+  max-width: 16ch;
+}
+
+.contactInvite {
+  color: var(--text-on-void-dim);
+  margin-top: var(--s-5);
+  max-width: 48ch;
+  line-height: 1.65;
+}
+
+.contactRows {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-8) 0 0;
+  border-top: 1px solid var(--rule-void);
+}
+
+.contactRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule-void);
+}
+
+.contactRowLabel {
+  color: var(--brass);
+  min-width: 10ch;
+  flex: none;
+}
+
+.contactRowValue {
+  font-size: 1.0625rem;
+  word-break: break-word;
+}
+
+.contactActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-8);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--s-6);
+  margin-top: var(--s-9);
+  border-top: 1px solid var(--rule-void);
+  color: var(--text-on-void-dim);
+}

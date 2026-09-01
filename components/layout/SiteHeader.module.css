@@ -1,0 +1,152 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: opacity var(--d-ui) var(--e-settle), transform var(--d-ui) var(--e-settle);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  height: 1px;
+  background: var(--rule-void);
+  opacity: 0.5;
+}
+
+.inner {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--s-3) var(--gutter);
+  min-height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  background: linear-gradient(to bottom, rgba(12, 12, 16, 0.92), rgba(12, 12, 16, 0.55) 70%, transparent);
+  backdrop-filter: blur(3px);
+}
+
+/* Recede to a hairline during the journey; any focus inside brings it straight back. */
+.receded {
+  opacity: 0.55;
+}
+.receded:hover,
+.receded:focus-within {
+  opacity: 1;
+}
+
+/* Over a paper spread the header inverts to ink, so it never dissolves into the page. */
+.onPaper .inner {
+  background: linear-gradient(
+    to bottom,
+    rgba(246, 244, 239, 0.94),
+    rgba(246, 244, 239, 0.6) 70%,
+    transparent
+  );
+}
+
+.onPaper .brand {
+  color: var(--ink);
+}
+
+.onPaper .brandRole,
+.onPaper .navLink,
+.onPaper .indexBtn {
+  color: var(--ink-soft);
+}
+
+.onPaper .navLink:hover,
+.onPaper .indexBtn:hover {
+  color: var(--ink);
+}
+
+.onPaper .mark {
+  color: var(--ink);
+}
+
+.onPaper::after {
+  background: var(--rule-paper);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  text-decoration: none;
+  color: var(--text-on-void);
+}
+
+.mark {
+  color: var(--brass);
+  display: block;
+  transition: transform var(--d-ui) var(--e-settle);
+}
+
+.brand:hover .mark {
+  transform: rotate(45deg);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brandName {
+  font-family: var(--font-display), serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+}
+
+.brandRole {
+  color: var(--text-on-void-dim);
+  font-size: 0.6875rem;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+.navLink,
+.indexBtn {
+  color: var(--text-on-void-dim);
+  text-decoration: none;
+  padding: 10px 2px;
+  transition: color var(--d-micro) linear;
+}
+
+.navLink:hover,
+.indexBtn:hover {
+  color: var(--brass);
+}
+
+.indexBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.indexBtn::before {
+  content: '';
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  box-shadow: 0 4px 0 currentColor, 0 -4px 0 currentColor;
+}
+
+/* Mobile: keep the brand and index button; secondary links live in the menu. */
+@media (max-width: 720px) {
+  .navLink {
+    display: none;
+  }
+  .brandRole {
+    display: none;
+  }
+}
