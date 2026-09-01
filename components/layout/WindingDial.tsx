@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { chapters } from '@/lib/content/capabilities';
@@ -14,8 +15,12 @@ export function WindingDial() {
   const arcRef = useRef<SVGCircleElement>(null);
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
+  // The dial indexes the home page's chapters; on any other route those anchors do not exist.
+  const onHome = pathname === '/';
 
   useEffect(() => {
+    if (!onHome) return;
     let frame = 0;
     const C = 2 * Math.PI * 15;
 
@@ -49,7 +54,9 @@ export function WindingDial() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
-  }, []);
+  }, [onHome]);
+
+  if (!onHome) return null;
 
   const chapter = chapters[active];
 

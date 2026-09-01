@@ -82,7 +82,31 @@ because none exists in any source.
 | T2 | OG/social image | — | Deferred by owner; revisit post-launch. |
 | T4 | Favicon | `public/favicon.svg` | **Resolved** — escape-wheel mark authored. |
 
-## 6. Confirmation
+## 6. Résumé PDF (`public/resume/dhruv-bamal-backend-engineer.pdf`)
+
+Regenerated from `resume/resume.html` (`npm run resume`) rather than being the originally
+uploaded file. Every line traces to the same sources as the site:
+
+| Résumé section | Source |
+|---|---|
+| Header, summary | `resume` — professional summary near-verbatim |
+| Skills | `resume` — the nine clusters, regrouped into six keyword lines |
+| Projects (3) | each project's own README: stack, mechanism, guarantees, test scenarios |
+| Experience | `resume` — Forage programme, labelled a simulation |
+| Education | `resume` — degree, institution, years, CGPA (owner-approved) |
+| Achievements | `resume`, `certificate`, `owner-session-answer` |
+
+**Omitted from the résumé, consistent with the site:**
+
+| Omitted | Reason |
+|---|---|
+| Any deployment claim | Summary says "containerised with Docker", never "deployed". Projects are not deployed. |
+| Project repository / demo URLs | Repositories are private; no public links for the three projects. |
+| Helios Protocol repository URL | It contains the teammate's username, which the owner asked to keep off the site; the same standard applies here. The public **demo** link is kept. |
+| Numeric outcomes, user counts, revenue | None exist in any source. |
+| Portfolio site URL | The new domain is not purchased yet (T1). Add it to the header line once it is. |
+
+## 7. Confirmation
 
 - Every fact-bearing record in `lib/content/` carries a non-empty `source`; asserted per record.
 - The rendered server HTML was checked for 22 representative facts — all present, with no canvas

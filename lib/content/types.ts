@@ -106,6 +106,11 @@ export interface Project extends Sourced {
   mechanismName: string;
   /** Short narrative shown in the cinematic chamber. */
   chamberCopy: string;
+  /**
+   * The single hard promise the system makes — the case study's hook. Restates what the
+   * README's own integrity/decision section already guarantees; adds no new claim.
+   */
+  guarantee: { claim: string; detail: string };
   problem: string;
   solution: string;
   /** README heading is "Target users"; rendered as "Built for" (see readiness review A5.2). */

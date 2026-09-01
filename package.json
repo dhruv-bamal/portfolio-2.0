@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "resume": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --no-pdf-header-footer --virtual-time-budget=3000 --print-to-pdf=\"$PWD/public/resume/dhruv-bamal-backend-engineer.pdf\" \"file://$PWD/resume/resume.html\""
   },
   "dependencies": {
     "@react-three/drei": "^9.114.0",

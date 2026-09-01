@@ -2,10 +2,9 @@
   min-height: 100vh;
   background: var(--paper);
   color: var(--ink);
-  padding-bottom: var(--s-10);
 }
 
-/* ---- Dark header band, tinted by the project's jewel ---- */
+/* ========================= Opening band ========================= */
 
 .hero {
   position: relative;
@@ -65,139 +64,121 @@
   color: var(--text-on-void);
 }
 
-/* ---- Paper body ---- */
+/* ========================= Body ========================= */
 
 .body {
   position: relative;
+  padding-bottom: var(--s-9);
 }
 
-/* The diagram card straddles the dark band and the paper below it. */
+/* Reading measure is the whole point of this page: long prose at full column width is what
+   made the earlier version hard to read. */
+.prose {
+  max-width: 62ch;
+  color: var(--ink-soft);
+  line-height: 1.72;
+  font-size: clamp(1rem, 1vw, 1.0625rem);
+}
+
+.prose + .prose {
+  margin-top: var(--s-4);
+}
+
+.subhead {
+  color: var(--ink-soft);
+  margin-bottom: var(--s-4);
+}
+
+/* The guarantee, set as the loudest sentence on the page. */
+.claim {
+  font-family: var(--font-display), serif;
+  font-size: var(--t-display-2);
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: 24ch;
+  margin-bottom: var(--s-4);
+}
+
+/* ---- Diagram ---- */
+
 .diagramFrame {
-  margin-top: calc(var(--s-8) * -1);
-  margin-bottom: var(--s-7);
   border: 1px solid var(--rule-paper);
   border-top: 2px solid var(--accent);
   padding: var(--s-5);
   background: #fff;
-  box-shadow: 0 24px 60px -32px rgba(12, 12, 16, 0.55);
+  box-shadow: 0 20px 50px -34px rgba(12, 12, 16, 0.5);
 }
 
-/* ---- Blocks ---- */
+/* ---- Mechanism steps ---- */
 
-.block {
-  padding-block: var(--s-8);
-  border-bottom: 1px solid var(--rule-paper);
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: var(--s-7) 0 0;
   display: grid;
   gap: var(--s-5);
+  position: relative;
 }
 
-@media (min-width: 900px) {
-  .block {
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: var(--s-8);
-    align-items: start;
-  }
+.step {
+  display: grid;
+  grid-template-columns: 3ch minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: start;
+  position: relative;
+  padding-left: var(--s-5);
 }
 
-.blockLabel {
-  color: var(--ink-soft);
+/* A spine running down the sequence, so the steps read as one mechanism rather than a list. */
+.step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  bottom: calc(var(--s-5) * -1);
+  width: 1px;
+  background: var(--rule-paper);
+}
+
+.step:last-child::before {
+  bottom: auto;
+  height: 0.5em;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0.5em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.stepIndex {
+  color: var(--accent-text);
   padding-top: 4px;
 }
 
-.prose {
-  max-width: var(--measure);
-  color: var(--ink-soft);
-  line-height: 1.7;
-}
-
-/* ---- Tag lists ---- */
-
-.tagList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-}
-
-.tag {
-  border: 1px solid var(--rule-paper);
-  padding: 7px 13px;
-  font-family: var(--font-mono), monospace;
-  font-size: var(--t-mono);
-  letter-spacing: 0.04em;
-  color: var(--ink);
-}
-
-/* ---- Workflow ---- */
-
-.workflow {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--s-3);
-}
-
-.workflowStep {
-  display: grid;
-  grid-template-columns: 4ch minmax(0, 1fr);
-  gap: var(--s-4);
-  align-items: baseline;
-  padding-bottom: var(--s-3);
-  border-bottom: 1px dotted var(--rule-paper);
-  color: var(--ink-soft);
-}
-
-.workflowIndex {
-  color: var(--accent-text);
-}
-
-.workflowActor {
-  font-weight: 600;
-  color: var(--ink);
-}
-
-/* ---- Mechanism ---- */
-
-.mechanismList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--s-5);
-}
-
-.mechanismStep {
-  display: grid;
-  grid-template-columns: 4ch minmax(0, 1fr);
-  gap: var(--s-4);
-  align-items: start;
-}
-
-.mechanismIndex {
-  color: var(--accent-text);
-  padding-top: 5px;
-}
-
-.mechanismText {
+.stepText {
   color: var(--ink);
   line-height: 1.6;
+  max-width: 58ch;
 }
 
-.mechanismNote {
+.stepNote {
   color: var(--ink-soft);
   margin-top: var(--s-2);
-  padding-left: var(--s-4);
-  border-left: 2px solid var(--accent);
   line-height: 1.6;
+  max-width: 58ch;
+  opacity: 0.85;
 }
 
 /* ---- States ---- */
 
 .states {
-  margin-top: var(--s-7);
+  margin-top: var(--s-8);
   padding-top: var(--s-6);
   border-top: 1px solid var(--rule-paper);
 }
@@ -205,7 +186,7 @@
 .stateList {
   list-style: none;
   padding: 0;
-  margin: var(--s-4) 0 0;
+  margin: 0;
   display: grid;
   gap: var(--s-4);
 }
@@ -224,6 +205,7 @@
   border: 1px solid var(--rule-paper);
   padding: 5px 10px;
   background: var(--paper-dim);
+  color: var(--ink);
 }
 
 .stateFrom {
@@ -246,106 +228,134 @@
   line-height: 1.6;
 }
 
-/* ---- Check lists ---- */
+/* ---- Proof ---- */
 
-.checkList {
+.proofList {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: var(--s-6) 0 0;
   display: grid;
   gap: var(--s-3);
 }
 
-.checkItem {
+.proof {
   position: relative;
-  padding-left: var(--s-6);
-  color: var(--ink-soft);
+  padding: var(--s-4) var(--s-4) var(--s-4) var(--s-7);
+  border: 1px solid var(--rule-paper);
+  background: #fff;
+  color: var(--ink);
   line-height: 1.6;
 }
 
-.checkItem::before {
+/* A check struck in the accent — these are the cases that hold. */
+.proof::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 10px;
-  height: 1px;
-  background: var(--accent);
+  left: var(--s-4);
+  top: 1.35em;
+  width: 9px;
+  height: 5px;
+  border-left: 1.5px solid var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  transform: rotate(-45deg);
 }
 
-/* ---- Metrics ---- */
+/* ---- Built with ---- */
 
-.metricList {
+.stackBlock {
+  padding-block: var(--s-8);
+  border-top: 1px solid var(--rule-paper);
+}
+
+.stackList {
   list-style: none;
   padding: 0;
-  margin: var(--s-4) 0 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-2);
 }
 
-.metric {
+.stackItem {
+  border: 1px solid var(--rule-paper);
+  padding: 8px 14px;
   font-family: var(--font-mono), monospace;
   font-size: var(--t-mono);
-  color: var(--ink-soft);
-  border: 1px dashed var(--rule-paper);
-  padding: 6px 11px;
-}
-
-/* ---- Scope: visually emphasised, it is the honest part ---- */
-
-.scope {
-  background: var(--paper-dim);
-  margin-inline: calc(var(--s-5) * -1);
-  padding-inline: var(--s-5);
-}
-
-/* ---- Stack table ---- */
-
-.stackTable {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.stackTable tr {
-  border-bottom: 1px solid var(--rule-paper);
-}
-
-.stackLayer {
-  text-align: left;
-  color: var(--ink-soft);
-  padding: var(--s-3) var(--s-4) var(--s-3) 0;
-  vertical-align: top;
-  white-space: nowrap;
-  font-weight: 400;
-}
-
-.stackTech {
-  padding: var(--s-3) 0;
+  letter-spacing: 0.04em;
   color: var(--ink);
+  background: #fff;
+}
+
+/* ---- Source ---- */
+
+.sourceBlock {
+  padding-block: var(--s-8);
+  border-top: 1px solid var(--rule-paper);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+}
+
+.sourceNoteText {
+  color: var(--ink-soft);
+}
+
+/* Was a ghost button inheriting the dark-surface foreground — near-white text on paper, so it
+   read as blank space. Now an accent-filled control that belongs to the project's own palette. */
+.sourceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 44px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--accent-text);
+  color: var(--paper);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--t-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform var(--d-micro) var(--e-settle), filter var(--d-micro) linear;
+}
+
+.sourceLink:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.sourceLink:active {
+  transform: translateY(0) scale(0.985);
 }
 
 /* ---- Pager ---- */
 
 .pager {
+  background: var(--void);
+  color: var(--text-on-void);
+  padding-block: var(--s-8);
+}
+
+.pagerInner {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--s-5);
-  padding-top: var(--s-8);
 }
 
 .pagerLink {
   display: grid;
   gap: var(--s-2);
   text-decoration: none;
-  color: var(--ink);
-  padding: var(--s-4) 0;
+  color: var(--text-on-void);
+  padding: var(--s-3) 0;
   transition: color var(--d-micro) linear;
 }
 
 .pagerLink:hover {
-  color: var(--accent-text);
+  color: var(--brass);
 }
 
 .pagerNext {
@@ -354,10 +364,10 @@
 }
 
 .pagerLabel {
-  color: var(--ink-soft);
+  color: var(--text-on-void-dim);
 }
 
 .pagerName {
   font-family: var(--font-display), serif;
-  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-size: var(--t-display-2);
 }

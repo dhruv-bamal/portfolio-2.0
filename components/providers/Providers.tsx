@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 import { type Quality, useQualityTierDetection } from '@/lib/hooks/useQualityTier';
+import { type LenisLike, setLenis } from '@/lib/scroll/lenisInstance';
 import { sceneState } from '@/lib/scroll/progress';
 
 const QualityContext = createContext<Quality>({
@@ -63,6 +64,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
       // Reduced motion: no smoothing/inertia at all — native scrolling only.
       if (motionReduced) {
+        setLenis(null);
         ScrollTrigger.refresh();
         cleanup = () => {
           ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -80,6 +82,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         syncTouch: false,
       });
       lenisRef.current = lenis as unknown as { destroy: () => void; raf: (t: number) => void };
+      setLenis(lenis as unknown as LenisLike);
       if (process.env.NODE_ENV !== 'production') {
         (window as unknown as Record<string, unknown>).__lenis = lenis;
       }
@@ -96,6 +99,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         gsap.ticker.remove(tick);
         ScrollTrigger.getAll().forEach((t) => t.kill());
         lenis.destroy();
+        setLenis(null);
         lenisRef.current = null;
       };
     })();

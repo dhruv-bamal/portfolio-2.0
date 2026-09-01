@@ -26,7 +26,9 @@
   .heroGrid::before {
     content: '';
     position: absolute;
-    inset: -8vh calc(var(--gutter) * -1) -12vh;
+    /* The element this sits inside is already the full-width shell — insetting by a further
+       gutter pushed the scrim past the right edge and gave the page a 24px horizontal scroll. */
+    inset: -8vh 0 -12vh;
     background: linear-gradient(
       to bottom,
       transparent,
@@ -129,7 +131,7 @@
 }
 
 .flagshipTitle {
-  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  font-size: var(--t-display-1);
   line-height: 1.02;
 }
 
@@ -304,8 +306,8 @@
 }
 
 .exhibitTitle {
-  font-size: clamp(1.5rem, 2.8vw, 2.3rem);
-  line-height: 1.04;
+  font-size: var(--t-display-2);
+  line-height: 1.06;
 }
 
 .exhibitHint {
@@ -463,8 +465,8 @@
 }
 
 .medallionTitle {
-  font-size: clamp(1.25rem, 2.1vw, 1.7rem);
-  line-height: 1.06;
+  font-size: var(--t-display-3);
+  line-height: 1.1;
   margin-bottom: var(--s-3);
 }
 
@@ -622,7 +624,7 @@
 
 .clusterName {
   font-family: var(--font-display), serif;
-  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  font-size: var(--t-display-3);
   line-height: 1.1;
   margin-bottom: var(--s-4);
 }
@@ -654,7 +656,8 @@
 /* ========================= WORK ========================= */
 
 .workIntro {
-  padding-bottom: var(--s-7);
+  padding-bottom: var(--s-5);
+  padding-top: clamp(var(--s-7), 6vh, var(--s-8));
 }
 
 /* ---- Horizontal rail ---- */
@@ -780,8 +783,8 @@
 }
 
 .chamberName {
-  font-size: clamp(1.85rem, 3.6vw, 3rem);
-  line-height: 1;
+  font-size: var(--t-display-2);
+  line-height: 1.02;
   margin-top: var(--s-3);
 }
 
@@ -885,7 +888,7 @@
 
 .capabilityStatement {
   font-family: var(--font-display), serif;
-  font-size: clamp(1.25rem, 2.1vw, 1.85rem);
+  font-size: var(--t-display-2);
   line-height: 1.08;
 }
 

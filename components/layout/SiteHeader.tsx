@@ -73,12 +73,27 @@ export function SiteHeader() {
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
-            <Link className={`mono ${styles.navLink}`} href={onHome ? '#work' : '/#work'}>
-              Work
-            </Link>
-            <Link className={`mono ${styles.navLink}`} href={onHome ? '#contact' : '/#contact'}>
-              Contact
-            </Link>
+            {/* Same-page anchors are plain <a>: a Next <Link> would route the hash itself and
+                produce a native jump that Lenis cannot animate. */}
+            {onHome ? (
+              <>
+                <a className={`mono ${styles.navLink}`} href="#work">
+                  Work
+                </a>
+                <a className={`mono ${styles.navLink}`} href="#contact">
+                  Contact
+                </a>
+              </>
+            ) : (
+              <>
+                <Link className={`mono ${styles.navLink}`} href="/#work">
+                  Work
+                </Link>
+                <Link className={`mono ${styles.navLink}`} href="/#contact">
+                  Contact
+                </Link>
+              </>
+            )}
             <a
               className={`mono ${styles.navLink}`}
               href="/resume/dhruv-bamal-backend-engineer.pdf"

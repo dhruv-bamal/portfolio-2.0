@@ -16,6 +16,11 @@ const procureflow: Project = {
   oneLiner: 'Multi-tenant purchase and expense approval API for multi-branch businesses.',
   chamberCopy:
     'A request enters the train and advances through gates set by role and by amount. Some requests are turned back — and the audit ring engraves that decision just as permanently as an approval.',
+  guarantee: {
+    claim: 'Every decision is recorded, including the ones that say no.',
+    detail:
+      'Approved, rejected or sent back for changes, an audit event is written with the actor, organization, action, resource and timestamp. Tenant ownership is checked server-side on every protected query, never trusted from the client.',
+  },
   problem:
     'Small and mid-sized businesses often manage purchase requests, vendor approvals, and employee expense reimbursements through WhatsApp, spreadsheets, email, and paper forms. This creates delayed decisions, duplicate requests, weak accountability, inconsistent approval rules, and no reliable audit trail.',
   solution:
@@ -128,6 +133,11 @@ const slotsure: Project = {
     'Capacity-aware appointment and reservation API for clinics, service centers, coaching institutes, and multi-branch businesses.',
   chamberCopy:
     'A tooth is caught and held while its expiry dial winds down. It either seats — confirmed — or springs back and restores capacity exactly once. Never twice. That guarantee is the whole mechanism.',
+  guarantee: {
+    claim: 'Capacity is restored exactly once. Never twice.',
+    detail:
+      'Expiry workers are idempotent: running the same job a second time cannot return the seat again. Capacity is never touched outside the reservation transaction, and a repeated idempotency key creates no second reservation.',
+  },
   problem:
     'Businesses with limited appointment slots often manage scheduling through phone calls, WhatsApp, spreadsheets, or manual registers. This leads to double booking, temporary holds that are never released, inconsistent availability, missed appointments, and poor visibility into branch or staff utilization.',
   solution:
@@ -243,6 +253,11 @@ const dealersync: Project = {
     'Asynchronous distributor order-import and exception-management API for merchants, wholesalers, and operations teams.',
   chamberCopy:
     'Rows feed through a validation comb. Good rows seat into the order wheel; bad rows drop into labelled trays with a reason attached. Run the barrel again and nothing seats twice.',
+  guarantee: {
+    claim: 'A retry imports nothing twice, and one bad row never sinks the file.',
+    detail:
+      'Workers are idempotent and a deterministic key blocks duplicate external orders, so re-running a failed import is safe. Each row is validated independently, so valid orders land even when others fail.',
+  },
   problem:
     'Distributors and merchants often receive order files from sales teams, marketplaces, retailers, and accounting systems in inconsistent CSV/Excel formats. Manual imports are slow and error-prone: files may contain unknown headers, invalid SKUs, duplicate external order IDs, invalid quantities, or missing customer information. Processing large files synchronously also causes request timeouts and poor user experience.',
   solution:

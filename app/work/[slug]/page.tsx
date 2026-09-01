@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { ArchitectureDiagram } from '@/components/casestudy/ArchitectureDiagram';
+import { CaseChapter } from '@/components/casestudy/CaseChapter';
 import { Reveal } from '@/components/ui/Reveal';
 import { getProject, getProjectNeighbours, projects, sourceNote } from '@/lib/content';
 
@@ -21,21 +22,48 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
+/** Stack layers worth naming on a case study; the rest is detail for the repository. */
+const HEADLINE_LAYERS = [
+  'Runtime',
+  'Runtime / language',
+  'Framework',
+  'Database',
+  'Cache / queue',
+  'Queue',
+  'Background jobs',
+  'Testing',
+  'CI',
+];
+
+/**
+ * Case study as a five-chapter story: the problem, the promise, how it works, the proof, and
+ * what it deliberately does not do.
+ *
+ * Deliberately not a transcription of the README. The previous version rendered thirteen
+ * blocks — intended users, the full workflow, every engineering decision, every metric name,
+ * the whole roadmap, a thirteen-row stack table — which is a specification, not a case study.
+ * A reader deciding whether to interview someone needs the guarantee and the mechanism that
+ * delivers it; the rest was noise competing with the parts that matter.
+ */
 export default function CaseStudyPage({ params }: { params: { slug: string } }) {
   const project = getProject(params.slug);
   if (!project) notFound();
 
   const { prev, next } = getProjectNeighbours(project.slug);
+  // The strongest proofs lead; the exhaustive list belongs in the test suite, not here.
+  const proofs = project.proofs.slice(0, 4);
+  const stack = project.stack.filter((row) => HEADLINE_LAYERS.includes(row.layer));
 
   return (
     <main
       id="main"
       className={s.page}
-      style={{ ['--accent' as string]: `var(--${project.accent})`, ['--accent-text' as string]: `var(--${project.accent}-text)` }}
+      style={{
+        ['--accent' as string]: `var(--${project.accent})`,
+        ['--accent-text' as string]: `var(--${project.accent}-text)`,
+      }}
     >
-      {/* Dark header band, tinted by the project's jewel. The case studies were uniformly
-          paper-white before, which broke the site's dark/light rhythm the moment you left the
-          home route. */}
+      {/* ---- Opening: dark band tinted by the project's jewel ---- */}
       <header className={s.hero}>
         <div className={`shell ${s.heroInner}`}>
           <nav aria-label="Breadcrumb" className={`mono ${s.breadcrumb}`}>
@@ -53,218 +81,136 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
         <span className={s.heroGlow} aria-hidden="true" />
       </header>
 
-      <article className={`shell ${s.body}`} data-surface="paper">
-        {/* The diagram card straddles the boundary between the dark band and the paper. */}
-        <Reveal variant="wipe" className={s.diagramFrame}>
-          <ArchitectureDiagram project={project} />
-        </Reveal>
+      <article className={s.body} data-surface="paper">
+        <div className="shell">
+          {/* ---- 01 The problem ---- */}
+          <CaseChapter index="01" title="The problem">
+            <p className={s.prose}>{project.problem}</p>
+          </CaseChapter>
 
-        {/* ---- Problem / Solution ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="problem">
-          <h2 id="problem" className={`mono ${s.blockLabel}`}>
-            Problem
-          </h2>
-          <p className={s.prose}>{project.problem}</p>
-        </Reveal>
+          {/* ---- 02 The guarantee: the hook the whole study turns on ---- */}
+          <CaseChapter index="02" title="The guarantee" variant="feature">
+            <p className={s.claim}>{project.guarantee.claim}</p>
+            <p className={s.prose}>{project.guarantee.detail}</p>
+          </CaseChapter>
 
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="solution">
-          <h2 id="solution" className={`mono ${s.blockLabel}`}>
-            Solution
-          </h2>
-          <p className={s.prose}>{project.solution}</p>
-        </Reveal>
+          {/* ---- 03 How it works ---- */}
+          <CaseChapter index="03" title="How it works">
+            <Reveal variant="wipe" className={s.diagramFrame}>
+              <ArchitectureDiagram project={project} />
+            </Reveal>
 
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="builtfor">
-          <h2 id="builtfor" className={`mono ${s.blockLabel}`}>
-            Built for
-          </h2>
-          <ul className={s.tagList}>
-            {project.builtFor.map((u) => (
-              <li key={u} className={s.tag}>
-                {u}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+            <p className={s.prose} style={{ marginTop: 'var(--s-7)' }}>
+              {project.solution}
+            </p>
 
-        {/* ---- Workflow ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="workflow">
-          <h2 id="workflow" className={`mono ${s.blockLabel}`}>
-            Core workflow
-          </h2>
-          <ol className={s.workflow}>
-            {project.workflow.map((w, i) => (
-              <li key={`${w.actor}-${i}`} className={s.workflowStep}>
-                <span className={`mono ${s.workflowIndex}`}>{String(i + 1).padStart(2, '0')}</span>
-                <span>
-                  <strong className={s.workflowActor}>{w.actor}</strong> {w.action}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </Reveal>
-
-        {/* ---- The mechanism ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="mechanism">
-          <h2 id="mechanism" className={`mono ${s.blockLabel}`}>
-            The mechanism
-          </h2>
-          <ol className={s.mechanismList}>
-            {project.mechanismSteps.map((m, i) => (
-              <li key={i} className={s.mechanismStep}>
-                <span className={`mono ${s.mechanismIndex}`}>{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <p className={s.mechanismText}>{m.step}</p>
-                  {m.note && <p className={`mono-plain ${s.mechanismNote}`}>{m.note}</p>}
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          {project.states && (
-            <div className={s.states}>
-              <h3 className={`mono ${s.blockLabel}`}>State transitions</h3>
-              <ul className={s.stateList}>
-                {project.states.map((st) => (
-                  <li key={st.from} className={s.stateRow}>
-                    <code className={s.stateFrom}>{st.from}</code>
-                    <span aria-hidden="true" className={s.stateArrow}>
-                      →
-                    </span>
-                    <span className={s.stateTo}>
-                      {st.to.map((to) => (
-                        <code key={to} className={s.stateChip}>
-                          {to}
-                        </code>
-                      ))}
-                    </span>
-                    {st.note && <p className={`mono-plain ${s.stateNote}`}>{st.note}</p>}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </Reveal>
-
-        {/* ---- Engineering decisions ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="decisions">
-          <h2 id="decisions" className={`mono ${s.blockLabel}`}>
-            Engineering decisions
-          </h2>
-          <ul className={s.checkList}>
-            {project.decisions.map((d) => (
-              <li key={d} className={s.checkItem}>
-                {d}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        {/* ---- Proofs ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="proofs">
-          <h2 id="proofs" className={`mono ${s.blockLabel}`}>
-            Proofs — what the tests hold to
-          </h2>
-          <ul className={s.checkList}>
-            {project.proofs.map((p) => (
-              <li key={p} className={s.checkItem}>
-                {p}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        {/* ---- Observability ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="observability">
-          <h2 id="observability" className={`mono ${s.blockLabel}`}>
-            Observability
-          </h2>
-          <p className={s.prose}>{project.instrumentation.note}</p>
-          <ul className={s.metricList}>
-            {project.instrumentation.names.map((m) => (
-              <li key={m} className={s.metric}>
-                {m}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        {/* ---- Scope boundaries: kept prominent, it is the differentiator ---- */}
-        <Reveal as="section" variant="rise" className={`${s.block} ${s.scope}`} aria-labelledby="scope">
-          <h2 id="scope" className={`mono ${s.blockLabel}`}>
-            Scope boundaries
-          </h2>
-          <p className={s.prose}>{project.scopeBoundaries}</p>
-        </Reveal>
-
-        {/* ---- Future ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="future">
-          <h2 id="future" className={`mono ${s.blockLabel}`}>
-            Future improvements
-          </h2>
-          <ul className={s.tagList}>
-            {project.futureImprovements.map((f) => (
-              <li key={f} className={s.tag}>
-                {f}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        {/* ---- Stack ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="stack">
-          <h2 id="stack" className={`mono ${s.blockLabel}`}>
-            Stack
-          </h2>
-          <table className={s.stackTable}>
-            <caption className="visually-hidden">{project.name} technology stack by layer</caption>
-            <tbody>
-              {project.stack.map((row) => (
-                <tr key={row.layer}>
-                  <th scope="row" className={`mono ${s.stackLayer}`}>
-                    {row.layer}
-                  </th>
-                  <td className={s.stackTech}>{row.tech}</td>
-                </tr>
+            <ol className={s.steps}>
+              {project.mechanismSteps.map((m, i) => (
+                <Reveal as="li" key={i} variant="rise" delay={i * 55} className={s.step}>
+                  <span className={`mono ${s.stepIndex}`}>{String(i + 1).padStart(2, '0')}</span>
+                  <div>
+                    <p className={s.stepText}>{m.step}</p>
+                    {m.note && <p className={`mono-plain ${s.stepNote}`}>{m.note}</p>}
+                  </div>
+                </Reveal>
               ))}
-            </tbody>
-          </table>
-        </Reveal>
+            </ol>
 
-        {/* ---- Source (T3 reserved slot) ---- */}
-        <Reveal as="section" variant="rise" className={s.block} aria-labelledby="source">
-          <h2 id="source" className={`mono ${s.blockLabel}`}>
-            Source
-          </h2>
-          <p className={s.prose}>{sourceNote.note}</p>
-          <p style={{ marginTop: 'var(--s-4)' }}>
+            {project.states && (
+              <Reveal variant="rise" className={s.states}>
+                <h3 className={`mono ${s.subhead}`}>State transitions</h3>
+                <ul className={s.stateList}>
+                  {project.states.map((st) => (
+                    <li key={st.from} className={s.stateRow}>
+                      <code className={s.stateFrom}>{st.from}</code>
+                      <span aria-hidden="true" className={s.stateArrow}>
+                        →
+                      </span>
+                      <span className={s.stateTo}>
+                        {st.to.map((to) => (
+                          <code key={to} className={s.stateChip}>
+                            {to}
+                          </code>
+                        ))}
+                      </span>
+                      {st.note && <p className={`mono-plain ${s.stateNote}`}>{st.note}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            )}
+          </CaseChapter>
+
+          {/* ---- 04 Proof ---- */}
+          <CaseChapter index="04" title="Proof">
+            <p className={s.prose}>
+              What the tests hold the system to — the cases that would break it if the guarantee
+              did not hold.
+            </p>
+            <ul className={s.proofList}>
+              {proofs.map((p, i) => (
+                <Reveal as="li" key={p} variant="rise" delay={i * 70} className={s.proof}>
+                  {p}
+                </Reveal>
+              ))}
+            </ul>
+          </CaseChapter>
+
+          {/* ---- 05 Boundaries: kept, because the honesty is the point ---- */}
+          <CaseChapter index="05" title="What it doesn’t do" variant="boundary">
+            <p className={s.prose}>{project.scopeBoundaries}</p>
+          </CaseChapter>
+
+          {/* ---- Built with ---- */}
+          <Reveal variant="rise" className={s.stackBlock}>
+            <h2 className={`mono ${s.subhead}`}>Built with</h2>
+            <ul className={s.stackList}>
+              {stack.map((row) => (
+                <li key={row.layer} className={s.stackItem}>
+                  {row.tech}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          {/* ---- Source (T3 reserved slot) ---- */}
+          <Reveal variant="rise" className={s.sourceBlock}>
+            <p className={`mono ${s.sourceNoteText}`}>{sourceNote.note}</p>
             <a
-              className="btn btn-ghost"
+              className={s.sourceLink}
               href={sourceNote.href}
               target="_blank"
               rel="noreferrer noopener"
+              data-cursor="Visit"
             >
-              {sourceNote.hrefLabel} ↗
+              {sourceNote.hrefLabel}
+              <span aria-hidden="true">↗</span>
             </a>
-          </p>
-        </Reveal>
+          </Reveal>
+        </div>
+      </article>
 
-        {/* ---- Prev / next ---- */}
-        <nav className={s.pager} aria-label="Other complications">
+      {/* ---- Onward ---- */}
+      <nav className={s.pager} aria-label="Other complications">
+        <div className={`shell ${s.pagerInner}`}>
           {prev && (
-            <Link className={s.pagerLink} href={`/work/${prev.slug}`}>
+            <Link className={s.pagerLink} href={`/work/${prev.slug}`} data-cursor="Previous">
               <span className={`mono ${s.pagerLabel}`}>← Previous</span>
               <span className={s.pagerName}>{prev.name}</span>
             </Link>
           )}
           {next && (
-            <Link className={`${s.pagerLink} ${s.pagerNext}`} href={`/work/${next.slug}`}>
+            <Link
+              className={`${s.pagerLink} ${s.pagerNext}`}
+              href={`/work/${next.slug}`}
+              data-cursor="Next"
+            >
               <span className={`mono ${s.pagerLabel}`}>Next →</span>
               <span className={s.pagerName}>{next.name}</span>
             </Link>
           )}
-        </nav>
-      </article>
+        </div>
+      </nav>
     </main>
   );
 }

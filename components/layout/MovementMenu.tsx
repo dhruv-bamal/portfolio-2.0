@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { useMotionPreference } from '@/components/providers/Providers';
@@ -14,6 +15,8 @@ import styles from './MovementMenu.module.css';
  * Focus-trapped, Esc-closable, and operable entirely by keyboard.
  */
 export function MovementMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const pathname = usePathname();
+  const onHome = pathname === '/';
   const dialogRef = useRef<HTMLDivElement>(null);
   const restoreFocusTo = useRef<HTMLElement | null>(null);
 
@@ -87,10 +90,17 @@ export function MovementMenu({ open, onClose }: { open: boolean; onClose: () => 
             <ol className={styles.chapterList}>
               {chapters.map((c) => (
                 <li key={c.id}>
-                  <Link href={`/${c.anchor}`} className={styles.chapterLink} onClick={onClose}>
-                    <span className={`mono ${styles.chapterIndex}`}>{c.index}</span>
-                    <span className={`display ${styles.chapterTitle}`}>{c.title}</span>
-                  </Link>
+                  {onHome ? (
+                    <a href={c.anchor} className={styles.chapterLink} onClick={onClose}>
+                      <span className={`mono ${styles.chapterIndex}`}>{c.index}</span>
+                      <span className={`display ${styles.chapterTitle}`}>{c.title}</span>
+                    </a>
+                  ) : (
+                    <Link href={`/${c.anchor}`} className={styles.chapterLink} onClick={onClose}>
+                      <span className={`mono ${styles.chapterIndex}`}>{c.index}</span>
+                      <span className={`display ${styles.chapterTitle}`}>{c.title}</span>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ol>

@@ -58,6 +58,10 @@
      screen. */
   --t-display-xl: clamp(2.9rem, 7.6vw, 7.6rem);
   --t-display-1: clamp(1.95rem, 4.2vw, 4.1rem);
+  /* Named things — project names, exhibit titles, capability statements. */
+  --t-display-2: clamp(1.45rem, 2.4vw, 2.15rem);
+  /* Card titles — medallions, skill clusters, pager names. */
+  --t-display-3: clamp(1.05rem, 1.55vw, 1.4rem);
   --t-h2: clamp(1.5rem, 2.4vw, 2.05rem);
   --t-h3: clamp(1.05rem, 1.5vw, 1.35rem);
   --t-body: clamp(0.975rem, 0.85vw, 1.0625rem);

@@ -5,6 +5,7 @@ import { CustomCursor } from '@/components/layout/CustomCursor';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WindingDial } from '@/components/layout/WindingDial';
 import { Providers } from '@/components/providers/Providers';
+import { ScrollNavigation } from '@/components/providers/ScrollNavigation';
 import { SITE, identity } from '@/lib/content';
 
 import './globals.css';
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Providers>
+          <ScrollNavigation />
           <SiteHeader />
           {children}
           <WindingDial />

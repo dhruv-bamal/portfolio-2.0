@@ -1,0 +1,101 @@
+.chapter {
+  display: grid;
+  gap: var(--s-5);
+  padding-block: clamp(var(--s-8), 9vh, var(--s-10));
+  border-top: 1px solid var(--rule-paper);
+}
+
+@media (min-width: 900px) {
+  .chapter {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: var(--s-9);
+    align-items: start;
+  }
+}
+
+.aside {
+  position: relative;
+}
+
+/* The heading rides along beside its section, so the reader always knows which chapter of the
+   story they are in without a separate progress element. */
+@media (min-width: 900px) {
+  .stickyHead {
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-6));
+  }
+}
+
+.index {
+  color: var(--accent-text);
+  margin-bottom: var(--s-3);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms var(--e-settle), transform 600ms var(--e-settle);
+}
+
+.title {
+  font-family: var(--font-display), serif;
+  font-weight: 400;
+  font-size: var(--t-display-2);
+  line-height: 1.1;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 700ms var(--e-settle) 60ms, transform 700ms var(--e-settle) 60ms;
+}
+
+.entered .index,
+.entered .title {
+  opacity: 1;
+  transform: none;
+}
+
+/* Draws across as the chapter is read. */
+.progressRule {
+  display: block;
+  margin-top: var(--s-4);
+  height: 1px;
+  background: var(--rule-paper);
+  position: relative;
+  overflow: hidden;
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--chapter-progress, 0) * 100%);
+  background: var(--accent);
+}
+
+.content {
+  min-width: 0;
+}
+
+/* The guarantee is the hook — it gets the accent ground and a heavier rule. */
+.feature {
+  border-top-width: 2px;
+  border-top-color: var(--accent);
+}
+
+.feature .content {
+  padding: var(--s-6);
+  background: var(--paper-dim);
+  border-left: 2px solid var(--accent);
+}
+
+/* The boundary chapter reads as an aside, not a failure. */
+.boundary .content {
+  padding: var(--s-6);
+  border: 1px dashed var(--rule-paper);
+  background: rgba(22, 21, 26, 0.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index,
+  .title {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

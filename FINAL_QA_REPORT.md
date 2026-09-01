@@ -21,9 +21,9 @@ dashboard.
 | Route | Type | State |
 |---|---|---|
 | `/` | Static | All seven chapters in order |
-| `/work/procureflow` | SSG | Full 13-block case study |
-| `/work/slotsure` | SSG | Full 13-block case study |
-| `/work/dealersync` | SSG | Full 13-block case study |
+| `/work/procureflow` | SSG | Five-chapter case study (see §18) |
+| `/work/slotsure` | SSG | Five-chapter case study (see §18) |
+| `/work/dealersync` | SSG | Five-chapter case study (see §18) |
 | `/not-found` | Static | "A missing tooth" plate, navigable |
 
 All seven required sections exist: **Hero, About, Achievements, Skills, Projects & Work, What I
@@ -66,13 +66,12 @@ Can Build, Contact.**
 
 Three chambers with per-project jewel accent (ruby / sapphire / citrine), each carrying
 README-sourced copy, a three-phase mechanism description, stack chips, scope boundaries, and a
-case-study CTA. Above them sits a scannable DOM index so a reader in a hurry gets everything in
-ten seconds.
+case-study CTA. They travel horizontally on a pinned rail (§17), with a vertical-stack fallback.
 
-Case studies are paper-white editorial routes headed by an **authored SVG architecture diagram**
-per project (engraved technical-drawing style, drawn from each README's own architecture text),
-then problem, solution, built-for, workflow, mechanism, state transitions, engineering decisions,
-proofs, observability, scope boundaries, future improvements, stack table, source note, prev/next.
+Case studies open on a dark accent-tinted band and continue as paper-white editorial routes,
+structured as five chapters around an **authored SVG architecture diagram** per project
+(engraved technical-drawing style, drawn from each README's own architecture text). See §18 for
+the chapter structure and for what was deliberately cut.
 
 ## 6. Responsive Behaviour
 
@@ -80,9 +79,9 @@ proofs, observability, scope boundaries, future improvements, stack table, sourc
 - **Portrait/mobile** — the instrument lifts into the upper field and the hero copy takes the
   lower half behind a scrim. This was a **defect found and fixed during QA**: the first mobile
   build centred the instrument behind the copy and failed the readability floor.
-- Header collapses to brand + Index; winding dial drops its chapter title; case-study diagrams
+- Header collapses to brand + Index; the winding dial collapses to its ring; case-study diagrams
   scroll horizontally inside their own container.
-- Verified at 1440×900 and 375×812.
+- Verified at 1440×900, 800×900 (rail fallback), 390×844 and 375×812.
 
 ## 7. Reduced Motion
 
@@ -117,11 +116,13 @@ sections are present, there is no `<canvas>`, and the retired portfolio URL is a
 
 - One `h1`; landmarks; strict heading order; canvas is `aria-hidden` with per-chapter
   visually-hidden scene descriptions.
-- Skip-to-content is the first tab stop; every pinned scene has a visible Skip control.
+- Skip-to-content is the first tab stop; the flagship scene is escapable via `Esc` and a
+  visually-hidden skip link (its visible controls were removed in §16 for art-direction reasons).
 - Menu is focus-trapped, `Esc`-closable, and restores focus to its opener.
-- Skills clusters are ARIA tabs with roving `tabIndex` and arrow-key cycling — and all nine
-  clusters are additionally listed in a static `<details>`, so nothing is interaction-gated.
-- Achievement detail text is always in the DOM, never hover-only.
+- Skills shows all nine clusters and every item at once — no tabs, no clicking, nothing
+  interaction-gated (§15 item 7).
+- The Achievements exhibit opens on `:hover` **and** `:focus-within`, and shows its record
+  outright on touch and under reduced motion.
 - Copy-to-clipboard announces via `aria-live`.
 - Custom cursor is enhancement-only: suppressed on touch and under reduced motion, with the
   native caret preserved over prose, lists, tables and inputs.
@@ -305,7 +306,142 @@ plain viewport captures too. The rail was therefore verified primarily by measur
 (track transform, per-panel bounding boxes, active index, fallback mode) rather than by eye alone,
 with a successful capture of the second panel confirming the visual result.
 
-## 18. Remaining Owner TODOs
+## 18. Fourth Revision Round — Case Studies
+
+Rebuilt as a **five-chapter story** rather than a rendering of the README.
+
+| Chapter | Content |
+|---|---|
+| 01 The problem | The README's problem statement |
+| 02 The guarantee | The single hard promise the system makes — the hook |
+| 03 How it works | Architecture diagram, solution, the mechanism as a numbered sequence, state transitions |
+| 04 Proof | The four strongest test scenarios |
+| 05 What it doesn't do | Scope boundaries, kept because the honesty is the differentiator |
+
+Then a compact **Built with** chip row and the **Source** block.
+
+### Cut deliberately
+
+The previous version rendered thirteen blocks. These were removed as noise competing with the
+parts that decide whether someone requests an interview:
+
+| Removed | Why |
+|---|---|
+| Intended-users list (6 bullets) | Audience demographics, not engineering |
+| Core workflow strip | Restated the mechanism sequence immediately below it |
+| Full engineering-decisions list (6–8) | The load-bearing ones are already annotations on the mechanism steps |
+| Full proofs list (6–9) | Trimmed to the four strongest; the exhaustive set belongs in the test suite |
+| Observability metric-name dump (8–10) | A list of counter names proves nothing to a reader and had to be constantly qualified as "not results" |
+| Future improvements (7–8) | A roadmap for an unshipped private project |
+| 13-row stack table | Reduced to a 6-chip row of the layers worth naming |
+
+Nothing was invented to replace them. The one new field, `guarantee`, restates what each
+README's own integrity section already promises and carries the same source.
+
+### Typography and readability
+
+- Prose constrained to a **62ch** measure at 1.72 line-height; long paragraphs previously ran the
+  full content column.
+- Chapter headings are sticky beside their section on desktop, with a rule that draws across as
+  the chapter is read — progress is legible without a separate indicator.
+- The guarantee is set in display serif at up to 2rem on an accent-tinted ground; it is the
+  loudest sentence on the page.
+- Mechanism steps run down a spine with accent nodes, so they read as one mechanism rather than
+  a bulleted list.
+
+### Scroll-triggered story transitions
+
+Chapter headings and indices rise in on entry; mechanism steps and proofs stagger; the diagram
+wipes in. All via the existing `Reveal` primitive and one `requestAnimationFrame`-throttled
+scroll listener per chapter — no new dependency. Reduced motion renders everything complete
+and static.
+
+### The GitHub button (the reported bug)
+
+`.btn-ghost` sets `--btn-fg: var(--text-on-void)` (near-white) and is only corrected to ink by
+`.surface-paper .btn-ghost`. When the case study was restructured in an earlier round, `main`
+lost its `surface-paper` class — so the button was rendering near-white text on a paper
+background and read as blank space. It is now a filled pill in the project's own jewel
+(`--accent-text`: ruby / sapphire / citrine) with paper-coloured text, verified per route:
+`rgb(163,43,64)` on ProcureFlow, `rgb(47,84,147)` on SlotSure.
+
+### Two further defects fixed
+
+17. **Fixed header did not occlude content passing under it.** Its gradient fell to 0.6 opacity
+    at 70% height, so sticky chapter headings read straight through the header. Both the paper
+    and void variants now hold ~0.95 to 62% before fading.
+18. **The winding dial appeared on case-study routes.** It indexes the home page's chapters; on
+    any other route those anchors do not exist, so it sat permanently on "00 The Instrument". It
+    now renders only on `/`.
+
+### Production verification
+
+`typecheck` · `lint` · 59 content tests · `next build` all pass. All four routes served **200**
+from the production build (`next start`), zero console errors, no horizontal overflow at 390px,
+and a claim sweep over the rendered HTML of all three case studies found no "deployed",
+"in production", "live demo", or retired-URL text.
+
+## 19. Fifth Revision Round — Dust No Longer Follows the Pointer
+
+The dust field keeps its drift and loses its cursor attraction entirely. The eddy pulled motes
+toward the pointer, which made the background the thing the eye tracked at exactly the moment
+the reader was trying to attend to the foreground — atmosphere should sit behind the reader,
+not follow them.
+
+Removed: the pointer-projection maths, the per-mote attraction pass, and the two scratch vectors
+it needed. The per-frame loop is now drift plus box-wrapping only, so it is also marginally
+cheaper. `sceneState.pointerX/Y` is untouched and still drives the instrument's parallax and the
+camera rig.
+
+Verified: typecheck, lint, 59 tests and `next build` pass; the field renders evenly distributed
+across the frame from the production build, with no clustering under the cursor.
+
+## 20. Sixth Revision Round — Flow Audit (typography + Lenis navigation)
+
+Audited by walking the three requested journeys against the production build and measuring, then
+fixing and re-walking. Three passes.
+
+### Defects found
+
+19. **Anchor links did not glide — they teleported.** Sampling scroll position for two seconds
+    after clicking "Work" showed **2 distinct values**: a native jump. Next's `<Link>`
+    `preventDefault`s hash navigation and routes it itself, and because that happens during React's
+    bubble phase, a `document`-level listener saw `defaultPrevented` and bailed. Same-page anchors
+    are now plain `<a>` elements intercepted in the **capture** phase and handed to
+    `lenis.scrollTo`. After: **36 distinct positions** — a real glide.
+20. **Anchors landed under the fixed header.** Sections landed with their top at y=0, tucking the
+    first line beneath the header. Every target now carries a header-height offset; all six
+    chapters land at a consistent **88–90px**.
+21. **Returning from a case study dumped the reader at the hero.** Leaving Projects for a case
+    study and pressing Back returned to scrollY 0, forcing a re-scroll through the entire flagship.
+    Scroll position is now saved per route and restored on `popstate`: verified returning to
+    **scrollY 5791** with Projects 89px below the header.
+22. **Seven arbitrary heading sizes.** The flagship title (72px) outranked every section title
+    (60px), and h3 sizes ran 23 / 27 / 37 / 48 with no shared scale. Two tokens added
+    (`--t-display-2`, `--t-display-3`); the ladder is now **109 / 60 / 34 / 22** across four levels.
+23. **24px horizontal scroll on mobile** *(regression)*. The hero scrim used
+    `inset: … calc(var(--gutter) * -1)`, but the element it sits in *is* the full-width shell — so
+    it extended a gutter past the right edge. `body` had `overflow-x: hidden` while `html` did not,
+    so the overflow escaped and the page genuinely scrolled sideways. Now `inset: -8vh 0 -12vh`.
+24. **The menu stopped closing after a chapter jump** *(regression I introduced)*. The capture
+    handler called `stopPropagation()` to block Next's router, which also prevented React's
+    `onClick` — the menu's `onClose`. Resolved by converting same-page anchors to plain `<a>` so
+    only `preventDefault()` is needed and React handlers still run.
+
+### Verified after the fixes
+
+| Flow | Result |
+|---|---|
+| 1 — Hero → About → Achievements → Skills → Projects → Build → Contact | Every chapter lands at 88–90px |
+| 2 — Hero → Work → Hero | 36 and 37 distinct scroll positions (glides both ways); hero returns to 0 |
+| 3 — …Projects → case study → back → Hero | Returns to scrollY 5791, Projects at 89px, rail rebuilt (`mode="rail"`, pin spacer present) |
+| Reduced motion | Lenis never instantiated; native fallback still lands at exactly 88px; rail in stack mode |
+| Mobile (390px) | No horizontal scroll; menu closes after jump; anchors land at 80px (header 64 + 16) |
+
+Cross-route links (`/#work` from a case study) remain Next `<Link>`s so client routing is kept;
+the hash is honoured on arrival after `ScrollTrigger.refresh()`.
+
+## 21. Remaining Owner TODOs
 
 1. **Purchase the domain**, then set `SITE.domainPlaceholder` and `SITE.originPlaceholder`.
 2. **If repositories are made public**, fill `sourceNote.reservedPublicUrl` in

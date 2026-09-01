@@ -7,11 +7,12 @@ import * as THREE from 'three';
 import { sceneState } from '@/lib/scroll/progress';
 
 /**
- * Suspended dust (addition: pointer-reactive particle field).
+ * Suspended dust.
  *
  * Not a generic particle system — this is the fine brass dust that hangs in the light of a
- * museum vitrine. It drifts on its own, and the pointer drags a slow eddy through it, so the
- * viewer's presence disturbs the air of the exhibit rather than commanding a swarm.
+ * museum vitrine. It drifts on its own and answers to nothing: an earlier version pulled an
+ * eddy toward the pointer, which turned the background into something the eye tracked instead
+ * of the content in front of it. Atmosphere should stay behind the reader, not follow them.
  *
  * The field travels with the camera so it is always around the viewer, and points that fall
  * outside the box are recycled to the far side rather than respawned.
@@ -104,9 +105,6 @@ export function DustField({ count, reduced }: { count: number; reduced: boolean 
     [geometry, material],
   );
 
-  const cursorWorld = useRef(new THREE.Vector3());
-  const tmp = useRef(new THREE.Vector3());
-
   useFrame((state, delta) => {
     if (sceneState.paused || !points.current) return;
     const dt = Math.min(delta, 0.05);
@@ -117,14 +115,6 @@ export function DustField({ count, reduced }: { count: number; reduced: boolean 
     points.current.position.copy(camera.position);
     points.current.quaternion.copy(camera.quaternion);
 
-    // Where the pointer is, projected a little way in front of the camera. In the field's
-    // local space that is simply a point on the near plane, which avoids an unproject per frame.
-    const aspect = (camera as THREE.PerspectiveCamera).aspect || 1;
-    const fov = ((camera as THREE.PerspectiveCamera).fov ?? 45) * (Math.PI / 180);
-    const dist = 3.2;
-    const h = Math.tan(fov / 2) * dist;
-    cursorWorld.current.set(sceneState.pointerX * h * aspect, -sceneState.pointerY * h, -dist);
-
     const pos = geometry.attributes.position as THREE.BufferAttribute;
     const arr = pos.array as Float32Array;
 
@@ -132,24 +122,12 @@ export function DustField({ count, reduced }: { count: number; reduced: boolean 
       const ix = i * 3;
 
       if (!reduced) {
+        // Pure drift. The field deliberately does not react to the pointer: dust that chases
+        // the cursor pulls attention to the background at exactly the moment the reader is
+        // trying to attend to the foreground.
         arr[ix] += velocities[ix] * dt;
         arr[ix + 1] += velocities[ix + 1] * dt;
         arr[ix + 2] += velocities[ix + 2] * dt;
-
-        // Pointer eddy: a pull that falls off sharply, so only nearby motes respond and the
-        // field still reads as drifting air rather than a swarm chasing the cursor.
-        tmp.current.set(
-          cursorWorld.current.x - arr[ix],
-          cursorWorld.current.y - arr[ix + 1],
-          cursorWorld.current.z - arr[ix + 2],
-        );
-        const d2 = tmp.current.lengthSq();
-        if (d2 < 4 && d2 > 0.0001) {
-          const pull = (1 - d2 / 4) * 0.55 * dt;
-          arr[ix] += tmp.current.x * pull;
-          arr[ix + 1] += tmp.current.y * pull;
-          arr[ix + 2] += tmp.current.z * pull;
-        }
       }
 
       // Wrap through the box rather than respawning, so density stays even.
