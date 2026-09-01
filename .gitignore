@@ -20,3 +20,6 @@ coverage/
 test-results/
 playwright-report/
 .playwright-mcp/
+
+PORTFOLIO_PLAN.md
+.claude/
